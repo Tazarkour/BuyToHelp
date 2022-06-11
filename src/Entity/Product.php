@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,7 +20,12 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Title;
+    private $Name;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $Price;
 
     /**
      * @ORM\Column(type="text")
@@ -30,38 +33,42 @@ class Product
     private $Description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Dealers::class, inversedBy="yes")
+     * @ORM\ManyToOne(targetEntity=NGO::class, inversedBy="products")
      */
-    private $dealer;
+    private $NGO;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $link;
+    private $img;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Coupons::class, mappedBy="Product")
-     */
-    private $coupons;
 
-    public function __construct()
-    {
-        $this->coupons = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getName(): ?string
     {
-        return $this->Title;
+        return $this->Name;
     }
 
-    public function setTitle(string $Title): self
+    public function setName(string $Name): self
     {
-        $this->Title = $Title;
+        $this->Name = $Name;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->Price;
+    }
+
+    public function setPrice(float $Price): self
+    {
+        $this->Price = $Price;
 
         return $this;
     }
@@ -78,58 +85,29 @@ class Product
         return $this;
     }
 
-    public function getDealer(): ?Dealers
+    public function getNGO(): ?NGO
     {
-        return $this->dealer;
+        return $this->NGO;
     }
 
-    public function setDealer(?Dealers $dealer): self
+    public function setNGO(?NGO $NGO): self
     {
-        $this->dealer = $dealer;
+        $this->NGO = $NGO;
 
         return $this;
     }
 
-    public function getLink(): ?string
+    public function getImg(): ?string
     {
-        return $this->link;
+        return $this->img;
     }
 
-    public function setLink(string $link): self
+    public function setImg(?string $img): self
     {
-        $this->link = $link;
+        $this->img = $img;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Coupons[]
-     */
-    public function getCoupons(): Collection
-    {
-        return $this->coupons;
-    }
-
-    public function addCoupon(Coupons $coupon): self
-    {
-        if (!$this->coupons->contains($coupon)) {
-            $this->coupons[] = $coupon;
-            $coupon->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCoupon(Coupons $coupon): self
-    {
-        if ($this->coupons->removeElement($coupon)) {
-            // set the owning side to null (unless already changed)
-            if ($coupon->getProduct() === $this) {
-                $coupon->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
 
 }

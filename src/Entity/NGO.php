@@ -22,22 +22,12 @@ class NGO
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Name;
+    private $NGO;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $link;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $img;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $cathegory;
 
     /**
      * @ORM\Column(type="text")
@@ -45,13 +35,23 @@ class NGO
     private $Description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Coupons::class, mappedBy="NGO")
+     * @ORM\Column(type="string", length=255)
      */
-    private $coupons;
+    private $Type;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="NGO")
+     */
+    private $products;
+
+    public function __toString()
+    {
+        return $this->getNGO();
+    }
 
     public function __construct()
     {
-        $this->coupons = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -59,26 +59,14 @@ class NGO
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getNGO(): ?string
     {
-        return $this->Name;
+        return $this->NGO;
     }
 
-    public function setName(string $Name): self
+    public function setNGO(string $NGO): self
     {
-        $this->Name = $Name;
-
-        return $this;
-    }
-
-    public function getLink(): ?string
-    {
-        return $this->link;
-    }
-
-    public function setLink(string $link): self
-    {
-        $this->link = $link;
+        $this->NGO = $NGO;
 
         return $this;
     }
@@ -95,18 +83,6 @@ class NGO
         return $this;
     }
 
-    public function getCathegory(): ?string
-    {
-        return $this->cathegory;
-    }
-
-    public function setCathegory(string $cathegory): self
-    {
-        $this->cathegory = $cathegory;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->Description;
@@ -119,30 +95,42 @@ class NGO
         return $this;
     }
 
-    /**
-     * @return Collection|Coupons[]
-     */
-    public function getCoupons(): Collection
+    public function getType(): ?string
     {
-        return $this->coupons;
+        return $this->Type;
     }
 
-    public function addCoupon(Coupons $coupon): self
+    public function setType(string $Type): self
     {
-        if (!$this->coupons->contains($coupon)) {
-            $this->coupons[] = $coupon;
-            $coupon->setNGO($this);
+        $this->Type = $Type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setNGO($this);
         }
 
         return $this;
     }
 
-    public function removeCoupon(Coupons $coupon): self
+    public function removeProduct(Product $product): self
     {
-        if ($this->coupons->removeElement($coupon)) {
+        if ($this->products->removeElement($product)) {
             // set the owning side to null (unless already changed)
-            if ($coupon->getNGO() === $this) {
-                $coupon->setNGO(null);
+            if ($product->getNGO() === $this) {
+                $product->setNGO(null);
             }
         }
 

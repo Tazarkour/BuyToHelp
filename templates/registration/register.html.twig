@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '/security/register.html.twig' %}
 
 {% block title %}Register{% endblock %}
 
@@ -10,12 +10,29 @@
     <h1>Register</h1>
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
+    <div class="form-floating mb-3">
+        {{ form_widget(registrationForm.FirstName,{'attr': {'class': 'form-control required'}})}}
+        <label for="inputUserName">First Name</label>
+    </div>
+    <div class="form-floating mb-3">
+        {{ form_widget(registrationForm.LastName,{'attr': {'class': 'form-control required'}})}}
+        <label for="inputUserName">Last Name</label>
+    </div>
+    <div class="form-floating mb-3">
+        {{ form_widget(registrationForm.username,{'attr': {'class': 'form-control required'}})}}
+        <label for="inputUserName">Username</label>
+    </div>
+    <div class="form-floating mb-3">
+        {{ form_widget(registrationForm.email,{'attr': {'class': 'form-control required'}})}}
+        <label for="inputUserName">Email</label>
+    </div>
+    <div class="form-floating mb-3">
+        {{ form_widget(registrationForm.plainPassword,{'attr': {'class': 'form-control required'}})}}
+        <label for="inputUserName">Password</label>
+    </div>
+        {{ form_row(registrationForm.agreeTerms,{'attr': {'class': 'form-check-label'}}) }}
+<div class="mt-4 mb-0">
+    <div class="d-grid"><button class="btn btn-primary btn-block" type="submit">Create Account</button></div>
+</div>
     {{ form_end(registrationForm) }}
 {% endblock %}
