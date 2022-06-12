@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+
+    <div class="col-md-6">
+
+        <h1 class="display-5 fw-bolder">Confirmer Votre Commande ?</h1>
+        <div class="small mb-1">ID: {{ prod.id }}</div>
+        <h2 class="display-5 fw-bolder">{{ prod.name }}</h2>
+        <div class="fs-5 mb-5">
+            <span id="price">Quantité : {{  qt }}</span>
+        </div>
+        <div class="fs-5 mb-5">
+            <span id="price">Prix Total : ${{ prod.price * qt }}</span>
+        </div>
+        <p class="lead">Points Obtenus : {{ prod.point * qt }} </p>
+        <div class="d-flex">
+            {{ form(formCommande) }}
+            {{ form_label(formCommande.Qty,"Quantité") }}
+            {{ form_widget(formCommande.Qty) }}
+            {{ form_errors(formCommande.Qty) }}
+            {{ form_widget(formCommande.submit,{'attr': {'class': 'btn btn-outline-dark '}}) }}
+        </div>
+    </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</section>
+{% endblock %}

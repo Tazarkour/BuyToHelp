@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ asset(item.img) }}" alt="..." /></div>
+                    <div class="col-md-6">
+                        <div class="small mb-1">ID: {{ item.id }}</div>
+                        <h1 class="display-5 fw-bolder">{{ item.name }}</h1>
+                        <div class="fs-5 mb-5">
+                            <span>{{ item.Points }} Points</span>
+                        </div>
+                        <p>{{ item.Description }}</p>
+                        {% if app.user%}
+                                <br>
+                                {% if app.user.points < item.Points %}
+                                    <p class="text-danger">Insufficient Points</p><br>
+                        <div class="d-flex">
+                            <button class="btn btn-outline-dark flex-shrink-0" disabled>
+                                <i class="bi-cart-fill me-1"></i>
+                                Redeem
+                            </button>
+                        </div>
+                                {% else %}
+                                    <div class="d-flex">
+                            <button class="btn btn-outline-dark flex-shrink-0" href="{{ path('AddCommande',{'id': item.id }) }}">
+                                <i class="bi-cart-fill me-1"></i>
+                                Redeem
+                            </button>
+                                    </div>
+                                {% endif %}
+                        {% endif %}
+
+                        </div>
+
+
+
+                </div>
+            </div>
+        </section>
+{% endblock %}

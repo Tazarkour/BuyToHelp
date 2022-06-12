@@ -18,6 +18,14 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
+    public function get_products_by_ngo($NGO)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.NGO=:NGO')
+            ->setParameter('NGO',$NGO)
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Product[] Returns an array of Product objects

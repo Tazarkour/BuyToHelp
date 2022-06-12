@@ -42,6 +42,11 @@ class Commande
      */
     private $is_verif;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commandes")
+     */
+    private $User;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,24 @@ class Commande
     public function setIsVerif(bool $is_verif): self
     {
         $this->is_verif = $is_verif;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
+
+        return $this;
+    }
+    public function getSumPrix(): self
+    {
+
 
         return $this;
     }

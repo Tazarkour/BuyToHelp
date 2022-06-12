@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -60,6 +62,22 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $Points;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="User")
+     */
+    private $commandes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommandeReward::class, mappedBy="User")
+     */
+    private $commandeRewards;
+
+    public function __construct()
+    {
+        $this->commandes = new ArrayCollection();
+        $this->commandeRewards = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -205,6 +223,66 @@ class User implements UserInterface
     public function RemovePoints(int $Points): self
     {
         $this->Points -= $Points;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getUser() === $this) {
+                $commande->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommandeReward[]
+     */
+    public function getCommandeRewards(): Collection
+    {
+        return $this->commandeRewards;
+    }
+
+    public function addCommandeReward(CommandeReward $commandeReward): self
+    {
+        if (!$this->commandeRewards->contains($commandeReward)) {
+            $this->commandeRewards[] = $commandeReward;
+            $commandeReward->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandeReward(CommandeReward $commandeReward): self
+    {
+        if ($this->commandeRewards->removeElement($commandeReward)) {
+            // set the owning side to null (unless already changed)
+            if ($commandeReward->getUser() === $this) {
+                $commandeReward->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
 use App\Entity\NGO;
 use App\Entity\Product;
 use App\Form\NGOType;
@@ -61,8 +62,16 @@ class NGOController extends AbstractController
     {
         $NGO = $this->getDoctrine()->
         getRepository(NGO::class)->find($id);
+        $products = $this->getDoctrine()->getRepository(Product::class)->get_products_by_ngo($NGO);
+        $T=0;
+        foreach ($products as $j) {
+            $commandes = $j->getCommandes();
+            foreach ($commandes as $i) {
+                $T = $i->getTotal()+$T;
+        }
+        }
         return $this->render("NGO/Single.html.twig",
-            array('item' => $NGO));
+            array('item' => $NGO,'total'=>$T));
     }
 
 

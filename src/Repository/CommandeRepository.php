@@ -18,6 +18,18 @@ class CommandeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Commande::class);
     }
+    public function get_all_commandes($NGO)
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.Produit','c')
+            ->addSelect('c')
+            ->where('c.NGO=:NGO')
+            ->setParameter('NGO',$NGO)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 
     // /**
     //  * @return Commande[] Returns an array of Commande objects
