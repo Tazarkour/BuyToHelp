@@ -1,20 +1,23 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello NGOController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="container">
+        <h3 class="text-main-1" align="center">NGOS</h3>
+        <div class="nk-gap"></div>
+        <table class="nk-table" style="width:100%">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/BuyToHelp/src/Controller/NGOController.php'|file_link(0) }}">src/Controller/NGOController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/BuyToHelp/templates/ngo/index.html.twig'|file_link(0) }}">templates/ngo/index.html.twig</a></code></li>
-    </ul>
-</div>
+            <tbody>
+            <tr>
+                {% for i in ngo %}
+                <td >
+                    <img class="img-fluid rounded-circle mb-4" src="{{ asset(i.img) }}" alt="..." width="60" height="60" />
+                </td>
+                <td style="width:80%"> {{ i.NGO }} </td>
+                <td ><a href="{{path('NGO_item',{'id':i.id })}}" class="btn btn-outline-dark mt-aut"  >View</a> </td>
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+
+    </div>
 {% endblock %}

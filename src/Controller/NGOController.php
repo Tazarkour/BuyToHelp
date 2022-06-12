@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\NGO;
+use App\Entity\Product;
 use App\Form\NGOType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
@@ -17,9 +18,10 @@ class NGOController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('ngo/index.html.twig', [
-            'controller_name' => 'NGOController',
-        ]);
+        $NGOS= $this->getDoctrine()->
+        getRepository(NGO::class)->findAll();
+        return $this->render("ngo/index.html.twig",
+            array('ngo'=>$NGOS));
     }
     /**
      * @Route("/AddNGO",name="AddNGO")
@@ -39,7 +41,6 @@ class NGOController extends AbstractController
 
                // rename("images_products/".$image->getFileName() , "images_products/".$NGO->getNGO().".".$image->getClientOriginalExtension());
                 rename("images_NGO/".$image->getFileName() , "images_NGO/".$NGO->getNGO().".".$image->getClientOriginalExtension());
-
             }
             catch (IOExceptionInterface $e) {
                 echo "Erreur Profil existant ou erreur upload image ".$e->getPath();
@@ -52,6 +53,16 @@ class NGOController extends AbstractController
             return $this->redirectToRoute("products");
         }
         return $this->render("ngo/add.html.twig",array("formNGO"=>$form->createView()));
+    }
+    /**
+     * @Route("/NGO_item/{id}",name="NGO_item")
+     */
+    public function NGO_singe(Request $request,$id)
+    {
+        $NGO = $this->getDoctrine()->
+        getRepository(NGO::class)->find($id);
+        return $this->render("NGO/Single.html.twig",
+            array('item' => $NGO));
     }
 
 

@@ -17,6 +17,7 @@ class ProductType extends AbstractType
             ->add('Name')
             ->add('Price')
             ->add('Description')
+            ->add('points')
             ->add('img',FileType::class, array(
                     'multiple'    => false,
                     'attr' => array(

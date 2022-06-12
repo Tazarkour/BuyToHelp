@@ -56,6 +56,11 @@ class User implements UserInterface
      */
     private $LastName;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $Points;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -176,6 +181,30 @@ class User implements UserInterface
     public function setLastName(string $LastName): self
     {
         $this->LastName = $LastName;
+
+        return $this;
+    }
+
+    public function getPoints(): ?int
+    {
+        return $this->Points;
+    }
+
+    public function setPoints(int $Points): self
+    {
+        $this->Points = $Points;
+
+        return $this;
+    }
+    public function AddPoints(int $Points): self
+    {
+        $this->Points += $Points;
+
+        return $this;
+    }
+    public function RemovePoints(int $Points): self
+    {
+        $this->Points -= $Points;
 
         return $this;
     }
